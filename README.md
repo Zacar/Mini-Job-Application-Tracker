@@ -4,7 +4,7 @@
 
 ```
 DB_USER=postgres
-DB_PASSWORD=y"our_password"
+DB_PASSWORD="your_password"
 DB_NAME="database_name" || mini_tracker
 DB_HOST=localhost
 DB_PORT=5432
