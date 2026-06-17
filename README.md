@@ -1,9 +1,14 @@
 # Mini-Job-Application-Tracker
 
+##Env file example
 
-
-
-
+```
+DB_USER=postgres
+DB_PASSWORD=y"our_password"
+DB_NAME="database_name" || mini_tracker
+DB_HOST=localhost
+DB_PORT=5432
+```
 
 # API Documentation
 
@@ -77,10 +82,10 @@ Retrieves all applications with optional filtering and search.
 
 ### Query Parameters
 
-| Parameter | Description |
-|------------|-------------|
-| status | Applied, Interviewing, Offer, Rejected |
-| search | Searches company name or job title |
+| Parameter | Description                            |
+| --------- | -------------------------------------- |
+| status    | Applied, Interviewing, Offer, Rejected |
+| search    | Searches company name or job title     |
 
 ### Example Request
 

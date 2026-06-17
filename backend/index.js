@@ -11,14 +11,16 @@ app.post("/applications", async (req, res) => {
     const { company_name, job_title, job_type, status, applied_date, notes } =
       req.body;
 
-    if (!company_name || company_name.trim().length < 2) {
-      return res.status(400).json({
-        error:
-          "Company Name is required and must be at least 2 characters long.",
-      });
+    //validation for status and jobtype
+    const allowedStatus = ["Applied", "Interviewing", "Offer", "Rejected"];
+    const allowedJobType = ["Internship", "Full-time", "Part-time"];
+
+    if (status && !allowedStatus.includes(status)) {
+      return res.status(400).json({ error: "Invalid status value" });
     }
-    if (!job_title) {
-      return res.status(400).json({ error: "Job Title is required." });
+
+    if (job_type && !allowedJobType.includes(job_type)) {
+      return res.status(400).json({ error: "Invalid job type value" });
     }
 
     //using safe placeholders ($1, $2, etc.) to prevent SQL Injection
@@ -31,7 +33,7 @@ app.post("/applications", async (req, res) => {
         job_title,
         job_type,
         status || "Applied",
-        applied_date || new Date(),
+        applied_date || new Date().toISOString().split("T")[0],
         notes || "",
       ]
     );
@@ -92,6 +94,7 @@ app.get("/applications", async (req, res) => {
 app.get("/applications/:id", async (req, res) => {
   try {
     const { id } = req.params;
+
     const application = await pool.query(
       "SELECT * FROM applications WHERE id = $1",
       [id]
@@ -115,15 +118,18 @@ app.patch("/applications/:id", async (req, res) => {
     const { id } = req.params;
     const { company_name, job_title, job_type, status, applied_date, notes } =
       req.body;
-    if (!company_name || company_name.trim().length < 2) {
-      return res.status(400).json({
-        error:
-          "Company Name is required and must be at least 2 characters long.",
-      });
+    //validation for status and jobtype
+    const allowedStatus = ["Applied", "Interviewing", "Offer", "Rejected"];
+    const allowedJobType = ["Internship", "Full-time", "Part-time"];
+
+    if (status && !allowedStatus.includes(status)) {
+      return res.status(400).json({ error: "Invalid status value" });
     }
-    if (!job_title) {
-      return res.status(400).json({ error: "Job Title is required." });
+
+    if (job_type && !allowedJobType.includes(job_type)) {
+      return res.status(400).json({ error: "Invalid job type value" });
     }
+
     const updateApplication = await pool.query(
       `UPDATE applications 
         SET company_name = COALESCE($1, company_name), 
@@ -163,16 +169,29 @@ app.patch("/applications/:id", async (req, res) => {
 app.delete("/applications/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const deleteApplication = await pool.query(
-      "DELETE FROM  applications WHERE id=$1",
+
+    const result = await pool.query(
+      "DELETE FROM applications WHERE id = $1 RETURNING *",
       [id]
     );
-    res.json("application was deleted");
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: `Application with ID ${id} not found`,
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Application deleted successfully",
+      data: result.rows[0],
+    });
   } catch (err) {
     console.log(err.message);
+    res.status(500).json({ error: err.message });
   }
 });
-
 app.listen(8080, () => {
   console.log("server run on: 8080");
 });
