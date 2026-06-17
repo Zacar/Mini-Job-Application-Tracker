@@ -6,10 +6,20 @@ const pool = require("./db");
 app.use(cors());
 app.use(express.json()); // req.body
 
-app.post("/mini_tracker", async (req, res) => {
+app.post("/applications", async (req, res) => {
   try {
     const { company_name, job_title, job_type, status, applied_date, notes } =
       req.body;
+
+    if (!company_name || company_name.trim().length < 2) {
+      return res.status(400).json({
+        error:
+          "Company Name is required and must be at least 2 characters long.",
+      });
+    }
+    if (!job_title) {
+      return res.status(400).json({ error: "Job Title is required." });
+    }
 
     //using safe placeholders ($1, $2, etc.) to prevent SQL Injection
     const newApplication = await pool.query(
@@ -28,7 +38,6 @@ app.post("/mini_tracker", async (req, res) => {
 
     console.log("--- DATA SAVED TO DATABASE ---");
     console.log(newApplication.rows[0]);
-    console.log("------------------------------");
 
     res.status(201).json({
       success: true,
@@ -41,35 +50,80 @@ app.post("/mini_tracker", async (req, res) => {
   }
 });
 
-app.get("/mini_tracker", async (req, res) => {
+app.get("/applications", async (req, res) => {
   try {
-    const allApplication = await pool.query("SELECT * FROM applications");
-    res.json(allApplication.rows);
+    const { status, search } = req.query;
+
+    let queryText = "SELECT * FROM applications WHERE 1=1";
+    let queryParams = [];
+    let paramIndex = 1;
+
+    // If status is provided
+    if (status) {
+      queryText += ` AND status = $${paramIndex}`;
+      queryParams.push(status);
+      paramIndex++;
+    }
+
+    // If search keyword is provided (checks company_name OR job_title)
+    if (search) {
+      queryText += ` AND (company_name ILIKE $${paramIndex} OR job_title ILIKE $${paramIndex})`;
+      queryParams.push(`%${search}%`); // The % allows partial matching (e.g., "intern" matches "Backend Intern")
+      paramIndex++;
+    }
+
+    // Always sort by newest first
+    queryText += " ORDER BY created_at DESC";
+
+    const applications = await pool.query(queryText, queryParams);
+
+    res.json({
+      success: true,
+      count: applications.rows.length,
+      data: applications.rows,
+    });
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
 //so we can get applications with required id
-app.get("/mini_tracker/:id", async (req, res) => {
+app.get("/applications/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const application = await pool.query(
       "SELECT * FROM applications WHERE id = $1",
       [id]
     );
-    res.json(application.rows[0]);
+    if (application.rows.length === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Application not found" });
+    }
+
+    res.json({ success: true, data: application.rows[0] });
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
 //for update
-app.put("/mini_tracker/:id", async (req, res) => {
+app.patch("/applications/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { company_name, job_title, job_type, status, applied_date, notes } =
       req.body;
+    if (!company_name || company_name.trim().length < 2) {
+      return res.status(400).json({
+        error:
+          "Company Name is required and must be at least 2 characters long.",
+      });
+    }
+    if (!job_title) {
+      return res.status(400).json({ error: "Job Title is required." });
+    }
     const updateApplication = await pool.query(
       `UPDATE applications 
         SET company_name = COALESCE($1, company_name), 
@@ -102,10 +156,11 @@ app.put("/mini_tracker/:id", async (req, res) => {
     });
   } catch (err) {
     console.error(err.message);
+    res.status(500).json({ error: err.message });
   }
 });
 
-app.delete("/mini_tracker/:id", async (req, res) => {
+app.delete("/applications/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const deleteApplication = await pool.query(
