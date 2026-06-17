@@ -196,7 +196,7 @@ Updates specific fields of an application.
 
 ## 5. Delete an Application
 
-Deletes an application permanently.
+Removes an application from the database permanently.
 
 **URL:** `/applications/:id`  
 **Method:** `DELETE`
@@ -207,6 +207,29 @@ Deletes an application permanently.
 
 ```json
 {
-  "message": "application was deleted"
+  "success": true,
+  "message": "Application deleted successfully",
+  "data": {
+    "id": 1,
+    "company_name": "internSathi",
+    "job_title": "Backend Intern",
+    "job_type": "Internship",
+    "status": "Applied",
+    "applied_date": "2026-06-17T00:00:00.000Z",
+    "notes": "Applied via referral.",
+    "created_at": "2026-06-17T11:28:50.325Z",
+    "updated_at": "2026-06-17T11:28:50.325Z"
+  }
+}
+```
+
+### Error Response
+
+**Status:** `404 NOT FOUND`
+
+```json
+{
+  "success": false,
+  "message": "Application with ID 1 not found"
 }
 ```
