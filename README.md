@@ -1,6 +1,11 @@
 # Mini-Job-Application-Tracker
 
-#How to Run on development mode on your local machine
+A full-stack web application for tracking internship and job applications. Built with **React**, **TypeScript**, **Node.js**, **Express**, and **PostgreSQL**.
+This project was created in 3 day timeline.
+-First day backend was created with lightweight Node.js REST API using Express and PostgreSQL and checked RESTAPI with postman on each stages.
+-Second day frontend was created with React with TypeScript and Tailwind CSS and updated readme.md documentations.
+
+## Tech Stack
 
 ### Frontend
 
@@ -33,6 +38,8 @@ Before running this project, make sure you have:
 - PostgreSQL installed and running
 
 ---
+
+#How to Run on development mode on your local machine
 
 ## Database Setup
 
@@ -108,13 +115,13 @@ PORT=8080
 
 Start the backend server:
 
-```
+```bash
 nodemon index.js
 ```
 
 Expected output:
 
-```
+```bash
 Server running on port 8080
 ```
 
@@ -124,19 +131,19 @@ Server running on port 8080
 
 Open a new terminal and navigate to the frontend directory:
 
-```
+```bash
 cd frontend
 ```
 
 Install dependencies:
 
-```
+```bash
 npm install
 ```
 
 Start the development server:
 
-```
+```bash
 npm run dev
 ```
 

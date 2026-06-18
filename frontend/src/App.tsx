@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useApplications } from "./hooks/useApplications";
 import type { Application } from "./hooks/useApplications";
-import ApplicationForm from "./components/ApplicationForm"; // 👈 Imported
+import ApplicationForm from "./components/ApplicationForm";
+import logo from "./assets/logo.jpg";
 
 export default function App() {
   const { applications, loading, error, fetchApplications, deleteApplication } =
@@ -62,17 +63,15 @@ export default function App() {
       {/* Header Banner */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
-              💼 Mini Job Tracker
-            </h1>
-            <p className="text-sm text-gray-500">
-              Track your full-stack application lifecycle
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="Logo" className="w-35 h-15" />
+            <p className="text-sm text-black-500">
+              Track your Jobs Applications
             </p>
           </div>
           <button
             onClick={openAddMode}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg transition-colors shadow-sm"
+            className="bg-red-500 hover:bg-red-900 text-white font-medium px-4 py-2 rounded-lg transition-colors shadow-sm"
           >
             + Add Application
           </button>
@@ -191,7 +190,7 @@ export default function App() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => openEditMode(app)} // 👈 Hooks into edit function
-                      className="text-xs font-medium text-gray-600 hover:text-indigo-600 bg-gray-100 hover:bg-indigo-50 px-2.5 py-1.5 rounded-md transition-colors"
+                      className="text-xs font-medium text-gray-600 hover:text-red-600 bg-gray-100 hover:bg-red-50 px-2.5 py-1.5 rounded-md transition-colors"
                     >
                       Edit
                     </button>
