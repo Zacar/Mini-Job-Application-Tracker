@@ -34,8 +34,9 @@ export const useApplications = () => {
 
         const resData = await response.json();
         setApplications(resData.data);
-      } catch (err: any) {
-        setError(err.message || "Something went wrong");
+      } catch (err) {
+        const errorInstance = err as Error;
+        setError(errorInstance.message);
       } finally {
         setLoading(false);
       }
@@ -60,8 +61,9 @@ export const useApplications = () => {
       // Update state immediately
       setApplications((prev) => [resData.data, ...prev]);
       return { success: true };
-    } catch (err: any) {
-      return { success: false, error: err.message };
+    } catch (err) {
+      const errorInstance = err as Error;
+      setError(errorInstance.message);
     }
   };
 
@@ -84,8 +86,9 @@ export const useApplications = () => {
         prev.map((app) => (app.id === id ? resData.data : app))
       );
       return { success: true };
-    } catch (err: any) {
-      return { success: false, error: err.message };
+    } catch (err) {
+      const errorInstance = err as Error;
+      setError(errorInstance.message);
     }
   };
 
@@ -103,10 +106,11 @@ export const useApplications = () => {
       });
       if (!response.ok) throw new Error("Failed to delete application");
       return { success: true };
-    } catch (err: any) {
-      // Revert back to original data if server request crashes
+    } catch (err) {
+      const errorInstance = err as Error;
+      setError(errorInstance.message);
       setApplications(originalApplications);
-      return { success: false, error: err.message };
+      return { success: false, error: errorInstance.message };
     }
   };
 

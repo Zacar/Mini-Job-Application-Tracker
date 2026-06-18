@@ -1,22 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useApplications } from "./hooks/useApplications";
 import type { Application } from "./hooks/useApplications";
+import ApplicationForm from "./components/ApplicationForm"; // 👈 Imported
 
 export default function App() {
-  // 1. Destructure our backend connector hook
   const { applications, loading, error, fetchApplications, deleteApplication } =
     useApplications();
 
-  // 2. Local state for our filters
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
 
-  // 3. Fetch data on initial page load, and re-fetch whenever filters change
+  // Control variables for managing our dynamic form states
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [activeEditTarget, setActiveEditTarget] = useState<Application | null>(
+    null
+  );
+
   useEffect(() => {
     fetchApplications(statusFilter, search);
   }, [statusFilter, search, fetchApplications]);
 
-  // Helper function to color-code our status badges dynamically
   const getStatusColor = (status: Application["status"]) => {
     switch (status) {
       case "Applied":
@@ -32,7 +35,16 @@ export default function App() {
     }
   };
 
-  // Handle the delete confirmation step (Requirement 4)
+  const openAddMode = () => {
+    setActiveEditTarget(null); // Clear target to put the form into Add mode
+    setIsFormOpen(true);
+  };
+
+  const openEditMode = (app: Application) => {
+    setActiveEditTarget(app); // Save target to put the form into Edit mode
+    setIsFormOpen(true);
+  };
+
   const handleDelete = async (id: number, company: string) => {
     const confirmed = window.confirm(
       `Are you sure you want to remove your application for ${company}?`
@@ -58,7 +70,10 @@ export default function App() {
               Track your full-stack application lifecycle
             </p>
           </div>
-          <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg transition-colors shadow-sm">
+          <button
+            onClick={openAddMode}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg transition-colors shadow-sm"
+          >
             + Add Application
           </button>
         </div>
@@ -66,7 +81,7 @@ export default function App() {
 
       {/* Main Container */}
       <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* Step 5: Filter and Search Controls */}
+        {/* Filter and Search Controls */}
         <section className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row gap-4 mb-8">
           <div className="flex-1">
             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
@@ -98,7 +113,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Dynamic States: Loading, Error, Empty, and Data List */}
+        {/* Dynamic States */}
         {loading && (
           <div className="text-center py-12">
             <div className="animate-spin inline-block w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full mb-2"></div>
@@ -126,7 +141,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Step 1: Responsive Grid of Application Entries */}
+        {/* Responsive Grid of Application Entries */}
         {!loading && applications.length > 0 && (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {applications.map((app) => (
@@ -165,8 +180,16 @@ export default function App() {
                   <span className="text-xs text-gray-400">
                     Applied: {new Date(app.applied_date).toLocaleDateString()}
                   </span>
+                  {app.updated_at && (
+                    <span className="text-[10px] text-amber-600 font-medium flex items-center gap-1">
+                      ✏️ Edited: {new Date(app.updated_at).toLocaleDateString()}
+                    </span>
+                  )}
                   <div className="flex gap-2">
-                    <button className="text-xs font-medium text-gray-600 hover:text-indigo-600 bg-gray-100 hover:bg-indigo-50 px-2.5 py-1.5 rounded-md transition-colors">
+                    <button
+                      onClick={() => openEditMode(app)} // 👈 Hooks into edit function
+                      className="text-xs font-medium text-gray-600 hover:text-indigo-600 bg-gray-100 hover:bg-indigo-50 px-2.5 py-1.5 rounded-md transition-colors"
+                    >
                       Edit
                     </button>
                     <button
@@ -182,6 +205,15 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {/* Shared Application Form Modal (Add & Edit Orchestrator) */}
+      <ApplicationForm
+        key={activeEditTarget ? `edit-${activeEditTarget.id}` : "add-mode"} // makes the state swap instantly without ESLint warnings
+        isOpen={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        onSubmitSuccess={() => fetchApplications(statusFilter, search)}
+        editingApplication={activeEditTarget}
+      />
     </div>
   );
 }
