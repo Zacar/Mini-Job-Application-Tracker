@@ -14,7 +14,6 @@ export default function ApplicationForm({
   onSubmitSuccess,
   editingApplication,
 }: FormProps) {
-  // 1. ALL HOOKS MUST GO FIRST (Before any 'if' or 'return' statements!)
   const [companyName, setCompanyName] = useState<string>(
     editingApplication?.company_name || ""
   );
@@ -25,17 +24,15 @@ export default function ApplicationForm({
     editingApplication?.job_type || "Full-time"
   );
 
-  // Explicitly typing this state prevents the strict 'SetStateAction' TypeScript compilation error on line 134!
   const [status, setStatus] = useState<string>(
     editingApplication?.status || "Applied"
   );
   const [notes, setNotes] = useState<string>(editingApplication?.notes || "");
   const [loading, setLoading] = useState<boolean>(false);
 
-  // 2. NOW it is safe to put the early return statement
   if (!isOpen) return null;
 
-  // 3. The Form Handler Logic
+  // Form Handler Logic
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -79,7 +76,6 @@ export default function ApplicationForm({
     }
   };
 
-  // Keep your exact return (...) statement below this line unaltered...
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 relative animate-fade-in">
@@ -129,7 +125,6 @@ export default function ApplicationForm({
                 <option value="Full-time">Full-time</option>
                 <option value="Part-time">Part-time</option>
                 <option value="Internship">Internship</option>
-                <option value="Remote">Remote</option>
               </select>
             </div>
 

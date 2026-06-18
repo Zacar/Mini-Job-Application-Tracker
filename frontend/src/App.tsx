@@ -180,11 +180,14 @@ export default function App() {
                   <span className="text-xs text-gray-400">
                     Applied: {new Date(app.applied_date).toLocaleDateString()}
                   </span>
-                  {app.updated_at && (
-                    <span className="text-[10px] text-amber-600 font-medium flex items-center gap-1">
-                      ✏️ Edited: {new Date(app.updated_at).toLocaleDateString()}
-                    </span>
-                  )}
+                  {app.updated_at &&
+                    new Date(app.updated_at).toLocaleDateString() !==
+                      new Date(app.applied_date).toLocaleDateString() && (
+                      <span className="text-[10px] text-amber-600 font-medium flex items-center gap-1">
+                        ✏️ Edited:{" "}
+                        {new Date(app.updated_at).toLocaleDateString()}
+                      </span>
+                    )}
                   <div className="flex gap-2">
                     <button
                       onClick={() => openEditMode(app)} // 👈 Hooks into edit function
