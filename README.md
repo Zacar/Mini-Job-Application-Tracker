@@ -1,12 +1,191 @@
 # Mini-Job-Application-Tracker
 
-##Env file example
+#How to Run on development mode on your local machine
+
+### Frontend
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+
+### Backend
+
+- Node.js
+- Express
+- PostgreSQL
+- pg
+- cors
+- dotenv
+
+### Development Tools
+
+- Nodemon
+
+---
+
+## Prerequisites
+
+Before running this project, make sure you have:
+
+- Node.js (v18.0.0 or higher recommended)
+- npm (v9.0.0 or higher recommended)
+- PostgreSQL installed and running
+
+---
+
+## Database Setup
+
+Create the database and required tables by running the following SQL commands:
+
+```sql
+CREATE DATABASE mini_tracker;
+
+CREATE TYPE job_type_enum AS ENUM (
+    'Internship',
+    'Full-time',
+    'Part-time'
+);
+
+CREATE TYPE status_enum AS ENUM (
+    'Applied',
+    'Interviewing',
+    'Offer',
+    'Rejected'
+);
+
+CREATE TABLE applications (
+    id SERIAL PRIMARY KEY,
+    company_name TEXT NOT NULL,
+    job_title TEXT NOT NULL,
+    job_type job_type_enum NOT NULL,
+    status status_enum NOT NULL DEFAULT 'Applied',
+    applied_date DATE NOT NULL,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### Useful PostgreSQL Commands
+
+```bash
+\l                  # List databases
+
+\c mini_tracker     # Connect to database
+
+\dt                 # Show tables
+
+SELECT * FROM applications;
+```
+
+---
+
+## Backend Setup
+
+Navigate to the backend directory:
 
 ```
-DB_USER=postgres
-DB_PASSWORD="your_password"
-DB_NAME="database_name" || mini_tracker
+cd backend
+```
+
+Install dependencies:
+
+```
+npm install
+```
+
+Create a `.env` file inside the `backend` folder:
+
+```env
+DB_USER=your_postgres_username
 DB_HOST=localhost
+DB_NAME=mini_tracker
+DB_PASSWORD=your_postgres_password
+DB_PORT=5432
+PORT=8080
+```
+
+Start the backend server:
+
+```
+nodemon index.js
+```
+
+Expected output:
+
+```
+Server running on port 8080
+```
+
+---
+
+## Frontend Setup
+
+Open a new terminal and navigate to the frontend directory:
+
+```
+cd frontend
+```
+
+Install dependencies:
+
+```
+npm install
+```
+
+Start the development server:
+
+```
+npm run dev
+```
+
+Open the URL displayed in the terminal (usually):
+
+```text
+http://localhost:5173
+```
+
+---
+
+## Installation From Scratch
+
+### Backend
+
+```bash
+mkdir backend
+cd backend
+
+npm init -y
+
+npm install express pg cors dotenv
+
+npm install --save-dev nodemon
+```
+
+### Frontend
+
+```bash
+npm create vite@latest frontend -- --template react-ts
+```
+
+### Tailwind CSS Setup
+
+Follow the official Tailwind CSS installation guide:
+
+https://tailwindcss.com/docs/installation/using-vite
+
+---
+
+##Env file example
+
+#keep this env in /backend/.env
+
+```
+DB_USER=your_postgres_username
+DB_HOST=localhost
+DB_NAME=your_database_name
+DB_PASSWORD=your_postgres_password
 DB_PORT=5432
 ```
 
@@ -233,3 +412,7 @@ Removes an application from the database permanently.
   "message": "Application with ID 1 not found"
 }
 ```
+
+## Author
+
+**Sakar Manandhar**
