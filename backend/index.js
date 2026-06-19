@@ -38,8 +38,8 @@ app.post("/applications", async (req, res) => {
       ]
     );
 
-    console.log("--- DATA SAVED TO DATABASE ---");
-    console.log(newApplication.rows[0]);
+    // console.log("--- DATA SAVED TO DATABASE ---");
+    // console.log(newApplication.rows[0]);
 
     res.status(201).json({
       success: true,
@@ -152,8 +152,8 @@ app.patch("/applications/:id", async (req, res) => {
       });
     }
 
-    //  updated data log
-    console.log(updateApplication.rows[0]);
+    // //  updated data log
+    // console.log(updateApplication.rows[0]);
 
     res.json({
       success: true,
@@ -192,6 +192,8 @@ app.delete("/applications/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-app.listen(8080, () => {
-  console.log("server run on: 8080");
+const PORT = process.env.PORT || 8080;
+
+app.listen(PORT, () => {
+  console.log(`server running on ${PORT}`);
 });
