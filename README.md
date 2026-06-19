@@ -1,28 +1,58 @@
-# Mini-Job-Application-Tracker
+## Mini Job Application Tracker
+
+
+**Video Demo:** https://drive.google.com/file/d/1-csI39-r4RTluPftyLo0wVQRP0P58prY/view?usp=drive_link
+
+
+**Live Demo:** https://mini-job-application-tracker-five.vercel.app/
+
+> **Note:** The backend is hosted on Render's free tier and may take 1–2 minutes to wake up when accessed after a period of inactivity.
 
 A full-stack web application for tracking internship and job applications. Built with **React**, **TypeScript**, **Node.js**, **Express**, and **PostgreSQL**.
-This project was created in 3 day timeline.
 
-- First day backend was created with lightweight Node.js REST API using Express and PostgreSQL and checked RESTAPI with postman on each stages.
-- Second day frontend was created with React with TypeScript and Tailwind CSS and updated readme.md documentations.
+### Development Timeline (3 Days)
 
-## Tech Stack
+#### Day 1 – Backend Development
 
-### Frontend
+* Designed and developed a lightweight REST API using **Node.js**, **Express**, and **PostgreSQL**.
+* Implemented CRUD operations for managing job applications.
+* Tested API endpoints throughout development using **Postman**.
 
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
+#### Day 2 – Frontend Development
 
-### Backend
+* Built a responsive user interface using **React**, **TypeScript**, and **Tailwind CSS**.
+* Integrated frontend components with backend API endpoints.
+* Added project documentation and updated the README.
 
-- Node.js
-- Express
-- PostgreSQL
-- pg
-- cors
-- dotenv
+#### Day 3 – Finalization & Deployment
+
+* Performed code cleanup and refactoring to improve maintainability.
+* Deployed the PostgreSQL database using Neon.
+* Deployed the backend API on Render.
+* Deployed the frontend application on Vercel.
+* Conducted final testing and verification of the complete application.
+
+### Tech Stack
+
+**Frontend**
+
+* React
+* TypeScript
+* Tailwind CSS
+* Vite
+
+**Backend**
+
+* Node.js
+* Express.js
+* PostgreSQL
+
+**Deployment & Services**
+
+* Neon (PostgreSQL Database)
+* Render (Backend Hosting)
+* Vercel (Frontend Hosting)
+
 
 ### Development Tools
 
@@ -107,12 +137,15 @@ Create a `.env` file inside the `backend` folder:
 
 ```env
 # DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/mini_tracker
+#FRONTEND_URL=https://yoururl.com/(only for deployment doesnot require for local dev mode ie http://localhost:5173)
+i have used yourdatabasename = mini_tracker
+yourpassword=master password which you kept in postgres setup
 ```
 
 Start the backend server:
 
 ```bash
-nodemon index.js
+nodemon index.js || node index.js
 ```
 
 Expected output:
@@ -135,6 +168,11 @@ Install dependencies:
 
 ```bash
 npm install
+```
+Create a `.env` file inside the `frontend` folder:
+
+```env
+# VITE_API_BASE_URL=http://localhost:8080 (backend local host port)
 ```
 
 Start the development server:
@@ -185,9 +223,15 @@ https://tailwindcss.com/docs/installation/using-vite
 #keep this env in /backend/.env
 
 ```
-# DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/yourdatabasename
+# DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/mini_tracker
+#FRONTEND_URL=https://yoururl.com/(only for deployment doesnot require for local dev mode ie http://localhost:5173)
 i have used yourdatabasename = mini_tracker
 yourpassword=master password which you kept in postgres setup
+```
+#keep this env in /frontend/.env
+
+```
+# VITE_API_BASE_URL=http://localhost:8080 (backend local host port or backend url)
 ```
 
 # API Documentation
