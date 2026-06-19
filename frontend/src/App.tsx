@@ -150,7 +150,7 @@ export default function App() {
               >
                 <div>
                   <div className="flex justify-between items-start mb-3">
-                    <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md uppercase tracking-wide">
+                    <span className="text-xs font-bold text-red-600 bg-gray-100 px-2 py-0.5 rounded-md uppercase tracking-wide">
                       {app.job_type}
                     </span>
                     <span

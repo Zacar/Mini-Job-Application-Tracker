@@ -2,8 +2,9 @@
 
 A full-stack web application for tracking internship and job applications. Built with **React**, **TypeScript**, **Node.js**, **Express**, and **PostgreSQL**.
 This project was created in 3 day timeline.
--First day backend was created with lightweight Node.js REST API using Express and PostgreSQL and checked RESTAPI with postman on each stages.
--Second day frontend was created with React with TypeScript and Tailwind CSS and updated readme.md documentations.
+
+- First day backend was created with lightweight Node.js REST API using Express and PostgreSQL and checked RESTAPI with postman on each stages.
+- Second day frontend was created with React with TypeScript and Tailwind CSS and updated readme.md documentations.
 
 ## Tech Stack
 
@@ -105,12 +106,7 @@ npm install
 Create a `.env` file inside the `backend` folder:
 
 ```env
-DB_USER=your_postgres_username
-DB_HOST=localhost
-DB_NAME=mini_tracker
-DB_PASSWORD=your_postgres_password
-DB_PORT=5432
-PORT=8080
+# DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/mini_tracker
 ```
 
 Start the backend server:
@@ -189,11 +185,9 @@ https://tailwindcss.com/docs/installation/using-vite
 #keep this env in /backend/.env
 
 ```
-DB_USER=your_postgres_username
-DB_HOST=localhost
-DB_NAME=your_database_name
-DB_PASSWORD=your_postgres_password
-DB_PORT=5432
+# DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/yourdatabasename
+i have used yourdatabasename = mini_tracker
+yourpassword=master password which you kept in postgres setup
 ```
 
 # API Documentation
