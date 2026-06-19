@@ -63,7 +63,7 @@ export default function App() {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <img src="/logo.jpg" alt="Logo" className="w-35 h-15" />
+            <img src="/Logo.jpg" alt="Logo" className="w-35 h-15" />
             <p className="text-sm text-black-500">
               Track your Jobs Applications
             </p>
