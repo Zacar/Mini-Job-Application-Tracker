@@ -179,11 +179,11 @@ export default function App() {
                     Applied: {new Date(app.applied_date).toLocaleDateString()}
                   </span>
                   {app.updated_at &&
-                    new Date(app.updated_at).toLocaleDateString() !==
-                      new Date(app.applied_date).toLocaleDateString() && (
-                      <span className="text-[10px] text-amber-600 font-medium flex items-center gap-1">
-                        ✏️ Edited:{" "}
-                        {new Date(app.updated_at).toLocaleDateString()}
+                    new Date(app.updated_at).getTime() !==
+                      new Date(app.applied_date).getTime() && (
+                      <span className="text-[9px] text-red-300 font-medium flex items-center gap-1">
+                        🕒 Last updated:{" "}
+                        {new Date(app.updated_at).toLocaleString()}
                       </span>
                     )}
                   <div className="flex gap-2">
