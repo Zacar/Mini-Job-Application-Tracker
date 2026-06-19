@@ -223,15 +223,13 @@ https://tailwindcss.com/docs/installation/using-vite
 #keep this env in /backend/.env
 
 ```
-# DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/mini_tracker
-#FRONTEND_URL=https://yoururl.com/(only for deployment doesnot require for local dev mode ie http://localhost:5173)
-i have used yourdatabasename = mini_tracker
-yourpassword=master password which you kept in postgres setup
+DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/mini_tracker
+
 ```
 #keep this env in /frontend/.env
 
 ```
-# VITE_API_BASE_URL=http://localhost:8080 (backend local host port or backend url)
+VITE_API_BASE_URL=http://localhost:8080 
 ```
 
 # API Documentation
