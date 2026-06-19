@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import type { Application } from "../hooks/useApplications";
 
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/applications`;
+
 interface FormProps {
   isOpen: boolean;
   onClose: () => void;
@@ -52,8 +54,8 @@ export default function ApplicationForm({
 
     try {
       const url = editingApplication
-        ? `http://localhost:8080/applications/${appId}`
-        : "http://localhost:8080/applications";
+        ? `${API_BASE_URL}/${appId}`
+        : `${API_BASE_URL}`;
 
       const method = editingApplication ? "PATCH" : "POST";
 

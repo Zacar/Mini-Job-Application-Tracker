@@ -3,7 +3,13 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", process.env.FRONTEND_URL],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json()); // req.body
 
 app.post("/applications", async (req, res) => {

@@ -12,7 +12,7 @@ export interface Application {
   updated_at: string;
 }
 
-const API_BASE_URL = "http://localhost:8080/applications";
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/applications`;
 
 export const useApplications = () => {
   const [applications, setApplications] = useState<Application[]>([]);
