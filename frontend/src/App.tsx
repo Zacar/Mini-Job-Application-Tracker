@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useApplications } from "./hooks/useApplications";
 import type { Application } from "./hooks/useApplications";
 import ApplicationForm from "./components/ApplicationForm";
-import logo from "./assets/logo.jpg";
+import logo from "./Assets/logo.jpg";
 
 export default function App() {
   const { applications, loading, error, fetchApplications, deleteApplication } =
